@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.guesstheword.screens.game
+package com.example.android.guesstheword.presentation.game
 
 import android.os.Bundle
 import android.util.Log
@@ -63,7 +63,7 @@ class GameFragment : Fragment() {
 //            binding.wordText.text = newWord.toString()
 //        })
 
-        viewModel.eventGameFinish.observe(viewLifecycleOwner, Observer<Boolean> { hasFinished ->
+        viewModel.hasEventGameFinished.observe(viewLifecycleOwner, Observer<Boolean> { hasFinished ->
             if (hasFinished) gameFinished()
         })
 

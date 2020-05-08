@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.guesstheword.screens.score
+package com.example.android.guesstheword.presentation.score
 
 import android.os.Bundle
 import android.view.LayoutInflater

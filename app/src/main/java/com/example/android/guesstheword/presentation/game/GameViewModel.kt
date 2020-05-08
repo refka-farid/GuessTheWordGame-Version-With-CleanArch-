@@ -1,4 +1,4 @@
-package com.example.android.guesstheword.screens.game
+package com.example.android.guesstheword.presentation.game
 
 import android.os.CountDownTimer
 import android.text.format.DateUtils
@@ -10,32 +10,26 @@ import androidx.lifecycle.ViewModel
 
 class GameViewModel : ViewModel() {
     // The current word
-    val _word = MutableLiveData<String>()
-    val word: LiveData<String>
-        get() = _word
+    private val _word = MutableLiveData<String>()
+    val word: LiveData<String> = _word
 
     // The current score
     private val _score = MutableLiveData<Int>()
-    val score: LiveData<Int>
-        get() = _score
+    val score: LiveData<Int> = _score
+
+    private val _hasEventGameFinished = MutableLiveData<Boolean>()
+    val hasEventGameFinished: LiveData<Boolean> = _hasEventGameFinished
+
+    // Countdown time
+    private val _currentTime = MutableLiveData<Long>()
+     val currentTimeString = Transformations.map(_currentTime) { time ->
+        DateUtils.formatElapsedTime(time)
+    }
+
+    private val timer: CountDownTimer
 
     // The list of words - the front of the list is the next word to guess
     private lateinit var wordList: MutableList<String>
-
-    private val _eventGameFinish = MutableLiveData<Boolean>()
-    val eventGameFinish: LiveData<Boolean>
-        get() = _eventGameFinish
-
-    private val _currentTime = MutableLiveData<Long>()
-
-    // Countdown time
-    val currentTime: LiveData<Long>
-        get() = _currentTime
-
-    val currentTimeString = Transformations.map(currentTime) { time ->
-        DateUtils.formatElapsedTime(time)
-    }
-    private val timer: CountDownTimer
 
     init {
         _word.value = ""
@@ -118,11 +112,11 @@ class GameViewModel : ViewModel() {
     }
 
     fun onGameFinishComplete() {
-        _eventGameFinish.value = false
+        _hasEventGameFinished.value = false
     }
 
     fun onGameFinish() {
-        _eventGameFinish.value = true
+        _hasEventGameFinished.value = true
     }
 
     companion object {

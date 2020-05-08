@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.guesstheword.screens.title
+package com.example.android.guesstheword.presentation.title
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -31,17 +31,26 @@ import com.example.android.guesstheword.databinding.TitleFragmentBinding
  */
 class TitleFragment : Fragment() {
 
+    //    override fun onCreateView(inflater: LayoutInflater,
+//                              container: ViewGroup?,
+//                              savedInstanceState: Bundle?
+//    ): View {
+//        // Inflate the layout for this fragment
+//        val binding: TitleFragmentBinding = DataBindingUtil.inflate(
+//                inflater, R.layout.title_fragment, container, false)
+//
+//        binding.playGameButton.setOnClickListener {
+//            findNavController().navigate(TitleFragmentDirections.actionFromTitleFragmentToGameFragment())
+//        }
+//        return binding.root
+//    }
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?
-    ): View {
-        // Inflate the layout for this fragment
-        val binding: TitleFragmentBinding = DataBindingUtil.inflate(
-                inflater, R.layout.title_fragment, container, false)
-
+    ): View = DataBindingUtil.inflate<TitleFragmentBinding>(
+            inflater, R.layout.title_fragment, container, false).also { binding ->
         binding.playGameButton.setOnClickListener {
             findNavController().navigate(TitleFragmentDirections.actionFromTitleFragmentToGameFragment())
         }
-        return binding.root
-    }
+    }.root
 }
