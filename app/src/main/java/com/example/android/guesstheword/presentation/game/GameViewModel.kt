@@ -8,6 +8,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 
+private const val GAME_TOTAL_TIME = 60000L
+private const val COUNTDOWN_TIME_INTERVAL = 1000L
+private const val GAME_OVER_TIME = 0L
+
 class GameViewModel : ViewModel() {
     // The current word
     private val _word = MutableLiveData<String>()
@@ -22,30 +26,29 @@ class GameViewModel : ViewModel() {
 
     // Countdown time
     private val _currentTime = MutableLiveData<Long>()
-     val currentTimeString = Transformations.map(_currentTime) { time ->
+    val currentTimeString = Transformations.map(_currentTime) { time ->
         DateUtils.formatElapsedTime(time)
     }
 
-    private val timer: CountDownTimer
+    private val timer: CountDownTimer = object : CountDownTimer(GAME_TOTAL_TIME, COUNTDOWN_TIME_INTERVAL) {
+        override fun onTick(millisUntilFinished: Long) {
+            _currentTime.value = millisUntilFinished / COUNTDOWN_TIME_INTERVAL
+        }
+
+        override fun onFinish() {
+            _currentTime.value = GAME_OVER_TIME
+            onGameFinish()
+        }
+    }
 
     // The list of words - the front of the list is the next word to guess
     private lateinit var wordList: MutableList<String>
 
     init {
+        Log.i("GameViewModel", "GameViewModel created !")
         _word.value = ""
         _score.value = 0
-        timer = object : CountDownTimer(COUNTDOWN_TIME, ONE_SECOND) {
-            override fun onTick(millisUntilFinished: Long) {
-                _currentTime.value = millisUntilFinished / ONE_SECOND
-            }
-
-            override fun onFinish() {
-                _currentTime.value = DONE
-                onGameFinish()
-            }
-        }
         timer.start()
-        Log.i("GameViewModel", "GameViewModel created !")
         resetList()
         nextWord()
     }
@@ -117,17 +120,6 @@ class GameViewModel : ViewModel() {
 
     fun onGameFinish() {
         _hasEventGameFinished.value = true
-    }
-
-    companion object {
-        // Time when the game is over
-        private const val DONE = 0L
-
-        // Countdown time interval
-        private const val ONE_SECOND = 1000L
-
-        // Total time for the game
-        private const val COUNTDOWN_TIME = 60000L
     }
 }
 

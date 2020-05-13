@@ -1,4 +1,4 @@
-package com.example.android.guesstheword.data
+package com.example.android.guesstheword.data.repository
 
 import com.example.android.guesstheword.domain.repository.ScoreRepository
 
