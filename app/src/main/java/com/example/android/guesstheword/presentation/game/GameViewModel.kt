@@ -8,16 +8,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 
-private const val GAME_TOTAL_TIME = 60000L
-private const val COUNTDOWN_TIME_INTERVAL = 1000L
+private const val GAME_TOTAL_TIME = 60_000L
+private const val COUNTDOWN_TIME_INTERVAL = 1_000L
 private const val GAME_OVER_TIME = 0L
 
 class GameViewModel : ViewModel() {
-    // The current word
+
     private val _word = MutableLiveData<String>()
     val word: LiveData<String> = _word
 
-    // The current score
     private val _score = MutableLiveData<Int>()
     val score: LiveData<Int> = _score
 
@@ -26,8 +25,8 @@ class GameViewModel : ViewModel() {
 
     // Countdown time
     private val _currentTime = MutableLiveData<Long>()
-    val currentTimeString = Transformations.map(_currentTime) { time ->
-        DateUtils.formatElapsedTime(time)
+    val currentTimeString = Transformations.map(_currentTime) { elapsedSeconds ->
+        DateUtils.formatElapsedTime(elapsedSeconds)
     }
 
     private val timer: CountDownTimer = object : CountDownTimer(GAME_TOTAL_TIME, COUNTDOWN_TIME_INTERVAL) {
@@ -114,7 +113,7 @@ class GameViewModel : ViewModel() {
         nextWord()
     }
 
-    fun onGameFinishComplete() {
+    fun finishGame() {
         _hasEventGameFinished.value = false
     }
 
