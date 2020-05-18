@@ -21,6 +21,9 @@
     <data>
 
         <variable
+            name="gameUiModel"
+            type="com.example.android.guesstheword.presentation.game.GameUiModel" />
+        <variable
             name="gameViewModel"
             type="com.example.android.guesstheword.presentation.game.GameViewModel" />
     </data>
@@ -54,7 +57,7 @@
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
             android:fontFamily="sans-serif"
-            android:text="@{@string/quote_format(gameViewModel.word)}"
+            android:text="@{@string/quote_format(gameUiModel.word)}"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:textColor="@color/black_text_color"
             android:textSize="34sp"
@@ -94,7 +97,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:fontFamily="sans-serif"
-            android:text="@{gameViewModel.currentTimeString}"
+            android:text="@{gameUiModel.currentTimeString}"
             android:textColor="@color/grey_text_color"
             android:textSize="14sp"
             android:textStyle="normal"
@@ -110,7 +113,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:fontFamily="sans-serif"
-            android:text="@{@string/score_format(gameViewModel.score)}"
+            android:text="@{@string/score_format(gameUiModel.score)}"
             android:textColor="@color/grey_text_color"
             android:textSize="14sp"
             android:textStyle="normal"

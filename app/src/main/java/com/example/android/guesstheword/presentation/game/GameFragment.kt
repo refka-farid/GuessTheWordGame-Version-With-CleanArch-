@@ -27,13 +27,13 @@ import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.example.android.guesstheword.R
 import com.example.android.guesstheword.databinding.GameFragmentBinding
-
 /**
  * Fragment where the game is played
  */
 class GameFragment : Fragment() {
     private lateinit var binding: GameFragmentBinding
     private lateinit var viewModel: GameViewModel
+    private lateinit var viewModelFactory: GameViewModelFactory
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -51,14 +51,18 @@ class GameFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(GameViewModel::class.java)
+
+        viewModelFactory = GameViewModelFactory(this)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(GameViewModel::class.java)
+
+        binding.gameUiModel = viewModel.gameUiModel
         binding.gameViewModel = viewModel
+
         viewModel.finalScore.observe(viewLifecycleOwner) { finalScore: Int ->
             findNavController().navigate(
                     GameFragmentDirections.actionFromGameFragmentToScoreFragment().apply {
                         score = finalScore
                     })
-            viewModel.finishGame()
         }
     }
 }
