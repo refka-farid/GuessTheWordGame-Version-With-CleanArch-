@@ -53,13 +53,7 @@ class GameFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(GameViewModel::class.java)
         binding.gameViewModel = viewModel
-        viewModel.hasEventGameFinished.observe(viewLifecycleOwner) { hasFinished ->
-            if (hasFinished) onGameFinished()
-        }
-    }
-
-    private fun onGameFinished() {
-        viewModel.score.observe(viewLifecycleOwner) { finalScore: Int ->
+        viewModel.finalScore.observe(viewLifecycleOwner) { finalScore: Int ->
             findNavController().navigate(
                     GameFragmentDirections.actionFromGameFragmentToScoreFragment().apply {
                         score = finalScore

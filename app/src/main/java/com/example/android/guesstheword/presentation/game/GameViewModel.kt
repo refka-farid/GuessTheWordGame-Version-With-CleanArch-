@@ -3,10 +3,7 @@ package com.example.android.guesstheword.presentation.game
 import android.os.CountDownTimer
 import android.text.format.DateUtils
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 
 private const val GAME_TOTAL_TIME = 60_000L
 private const val COUNTDOWN_TIME_INTERVAL = 1_000L
@@ -21,7 +18,9 @@ class GameViewModel : ViewModel() {
     val score: LiveData<Int> = _score
 
     private val _hasEventGameFinished = MutableLiveData<Boolean>()
-    val hasEventGameFinished: LiveData<Boolean> = _hasEventGameFinished
+
+    private val _finalScore = MediatorLiveData<Int>()
+    val finalScore: LiveData<Int> = _finalScore
 
     // Countdown time
     private val _currentTime = MutableLiveData<Long>()
@@ -44,6 +43,11 @@ class GameViewModel : ViewModel() {
     private lateinit var wordList: MutableList<String>
 
     init {
+        _finalScore.addSource(_hasEventGameFinished) { hasFinished ->
+            if (hasFinished) {
+                _finalScore.value = _score.value ?: 0
+            }
+        }
         Log.i("GameViewModel", "GameViewModel created !")
         _word.value = ""
         _score.value = 0
@@ -104,12 +108,12 @@ class GameViewModel : ViewModel() {
     /** Methods for buttons presses **/
 
     fun onSkip() {
-        _score.value = (score.value)?.minus(1)
+        _score.value = score.value?.minus(1)
         nextWord()
     }
 
     fun onCorrect() {
-        _score.value = (score.value)?.plus(1)
+        _score.value = score.value?.plus(1)
         nextWord()
     }
 
@@ -121,5 +125,3 @@ class GameViewModel : ViewModel() {
         _hasEventGameFinished.value = true
     }
 }
-
-
