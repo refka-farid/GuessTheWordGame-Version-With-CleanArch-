@@ -20,18 +20,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.android.guesstheword.R
 import com.example.android.guesstheword.databinding.TitleFragmentBinding
 
-/**
- * Fragment for the starting or title screen of the app
- */
 class TitleFragment : Fragment() {
-
-    //    override fun onCreateView(inflater: LayoutInflater,
+    //**region old way **/
+//    override fun onCreateView(inflater: LayoutInflater,
 //                              container: ViewGroup?,
 //                              savedInstanceState: Bundle?
 //    ): View {
@@ -44,11 +42,15 @@ class TitleFragment : Fragment() {
 //        }
 //        return binding.root
 //    }
+//** endregion Old way**/
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?
     ): View = DataBindingUtil.inflate<TitleFragmentBinding>(
-            inflater, R.layout.title_fragment, container, false).also { binding ->
+            inflater,
+            R.layout.title_fragment,
+            container,
+            false).also { binding ->
         binding.playGameButton.setOnClickListener {
             findNavController().navigate(TitleFragmentDirections.actionFromTitleFragmentToGameFragment())
         }
